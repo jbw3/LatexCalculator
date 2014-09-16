@@ -163,6 +163,8 @@ class LatexCalculatorCommand(sublime_plugin.TextCommand):
 
 			i += 1
 
+		newStr = self.addMultiplication(newStr)
+
 		return newStr
 
 	##
@@ -192,6 +194,25 @@ class LatexCalculatorCommand(sublime_plugin.TextCommand):
 		if s == "}":
 			return ")"
 		return "\\"+s
+
+	##
+	# @todo This needs to add a multiplication sign when the first number
+	# does not have parenthesis (e.g. 2(3) -> 2*(3))
+	def addMultiplication(self, string):
+		newStr = ""
+
+		needsOp = False
+		for ch in string:
+			if ch == ")":
+				needsOp = True
+			elif ch == "(" and needsOp:
+				newStr += "*"
+				needsOp = False
+			elif ch not in " \t":
+				needsOp = False
+			newStr += ch
+
+		return newStr
 
 	def calcAnswer(self, evalStr):
 		ansStr = ""

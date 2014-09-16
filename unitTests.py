@@ -85,6 +85,31 @@ class TestLatexCalculator(unittest.TestCase):
 		self.assertEqual(evalReg[0], sublime.Region(8, 15))
 		self.assertEqual(evalReg[1], sublime.Region(15, 18))
 
+	def testAddMultiplication(self):
+		s = self.calc.addMultiplication("(2.56)(34)")
+		self.assertEqual(s, "(2.56)*(34)")
+
+		s = self.calc.addMultiplication("(2.56) (34)")
+		self.assertEqual(s, "(2.56) *(34)")
+
+		s = self.calc.addMultiplication("(2.56)\t(34)")
+		self.assertEqual(s, "(2.56)\t*(34)")
+
+		s = self.calc.addMultiplication("(2.56)(34)(1 - 2)(35.2/16)")
+		self.assertEqual(s, "(2.56)*(34)*(1 - 2)*(35.2/16)")
+
+		s = self.calc.addMultiplication("(2.56)(34 - (2)(8.1))")
+		self.assertEqual(s, "(2.56)*(34 - (2)*(8.1))")
+
+		s = self.calc.addMultiplication("(2.56)*(34)")
+		self.assertEqual(s, "(2.56)*(34)")
+
+		s = self.calc.addMultiplication("(2.56)+(34)")
+		self.assertEqual(s, "(2.56)+(34)")
+
+		s = self.calc.addMultiplication("(2.56) + (34)")
+		self.assertEqual(s, "(2.56) + (34)")
+
 	def testFormatEvalStr(self):
 		evalStr = self.calc.formatEvalStr("1 + 2")
 		self.assertEqual(evalStr, "1 + 2")
@@ -133,6 +158,9 @@ class TestLatexCalculator(unittest.TestCase):
 
 		evalStr = self.calc.formatEvalStr("8\n*\r3")
 		self.assertEqual(evalStr, "8 * 3")
+
+		evalStr = self.calc.formatEvalStr("(8.123456)(3.324)")
+		self.assertEqual(evalStr, "(8.123456)*(3.324)")
 
 	def testCalcAnswer(self):
 		ansStr = self.calc.calcAnswer("1 + 1")
