@@ -214,7 +214,7 @@ class LatexCalculatorCommand(sublime_plugin.TextCommand):
 		return newStr
 
 	def calcAnswer(self, evalStr):
-		ansStr = "?"
+		ansStr = ""
 		try:
 			ans = eval(evalStr)
 			ans = round(ans, 3) ##@todo make rounding precision configurable

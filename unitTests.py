@@ -182,10 +182,10 @@ class TestLatexCalculator(unittest.TestCase):
 		self.assertEqual(ansStr, "1000")
 
 		ansStr = self.calc.calcAnswer("(1 + 2 * 3")
-		self.assertEqual(ansStr, "?")
+		self.assertEqual(ansStr, "")
 
 		ansStr = self.calc.calcAnswer("")
-		self.assertEqual(ansStr, "?")
+		self.assertEqual(ansStr, "")
 
 		ansStr = self.calc.calcAnswer("cot(math.pi/3)")
 		self.assertEqual(ansStr, "0.577")
