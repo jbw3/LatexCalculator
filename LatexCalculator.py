@@ -43,8 +43,7 @@ class LatexCalculatorCommand(sublime_plugin.TextCommand):
 
 			ansStr = self.calcAnswer(evalStr)
 
-			if ansStr != "":
-				self.view.replace(edit, ansRegion, self.getEqualStr(evalRegion) + ansStr)
+			self.view.replace(edit, ansRegion, self.getEqualStr(evalRegion) + ansStr)
 
 	##
 	# @brief Count the $ symbols in the given region
@@ -215,7 +214,7 @@ class LatexCalculatorCommand(sublime_plugin.TextCommand):
 		return newStr
 
 	def calcAnswer(self, evalStr):
-		ansStr = ""
+		ansStr = "?"
 		try:
 			ans = eval(evalStr)
 			ans = round(ans, 3) ##@todo make rounding precision configurable
